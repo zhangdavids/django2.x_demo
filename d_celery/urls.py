@@ -15,10 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.conf.urls import include
+from django.urls import re_path
+from django.urls import include
 
+from rest_framework_jwt.views import obtain_jwt_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('example.urls')),
+    path('api-token-auth/', obtain_jwt_token, name='create-token'),
+    re_path('api/(?P<version>(v1|v2))/', include('drf_api.urls')),
+    path('chat/', include('socket_example.urls')),
+    # path('app/', include('app.urls')),
 ]

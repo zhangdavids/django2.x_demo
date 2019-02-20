@@ -1,8 +1,15 @@
-from channels.routing import route
-from example.consumers import ws_connect, ws_disconnect
+from channels.auth import AuthMiddlewareStack
+from channels.routing import ProtocolTypeRouter, URLRouter
+
+import socket_example.routing
 
 
-channel_routing = [
-    route('websocket.connect', ws_connect),
-    route('websocket.disconnect', ws_disconnect),
-]
+application = ProtocolTypeRouter({
+    # (http->django views is added by default)
+    # 普通的HTTP请求不需要我们手动在这里添加，框架会自动加载过来
+    'websocket': AuthMiddlewareStack(
+        URLRouter(
+            socket_example.routing.websocket_urlpatterns
+        )
+    ),
+})

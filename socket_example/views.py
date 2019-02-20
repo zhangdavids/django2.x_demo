@@ -1,12 +1,25 @@
+import json
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.utils.safestring import mark_safe
 
 
 # Create your views here.
 User = get_user_model()
+
+
+def index(request):
+    return render(request, 'example/index.html', {})
+
+
+def room(request, room_name):
+    return render(request, 'example/room.html', {
+        'room_name_json': mark_safe(json.dumps(room_name))
+    })
 
 
 @login_required(login_url='/log_in/')
@@ -23,7 +36,7 @@ def log_in(request):
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
             login(request, form.get_user())
-            return redirect(reverse('example:user_list'))
+            return redirect(reverse('socket_example:user_list'))
         else:
             print(form.errors)
     return render(request, 'example/log_in.html', {'form': form})
@@ -32,7 +45,7 @@ def log_in(request):
 @login_required(login_url='/log_in/')
 def log_out(request):
     logout(request)
-    return redirect(reverse('example:log_in'))
+    return redirect(reverse('socket_example:log_in'))
 
 
 def sign_up(request):
@@ -41,7 +54,7 @@ def sign_up(request):
         form = UserCreationForm(data=request.POST)
         if form.is_valid():
             form.save()
-            return redirect(reverse('example:log_in'))
+            return redirect(reverse('socket_example:log_in'))
         else:
             print(form.errors)
     return render(request, 'example/sign_up.html', {'form': form})
