@@ -79,15 +79,15 @@ ASGI_APPLICATION = 'd_celery.routing.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
-    # 'dev': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'test_django',  # 数据库名字
-    #     'USER': 'postgres',  # 用户名，数据库的拥有者
-    #     'PASSWORD': 'postgres',  # 登录密码
-    #     'HOST': 'localhost',  # 主机地址本地可配置localhost或127.0.0.1。前提是安装postgresql的时候配置pg_hba.conf要配置好。
-    #     'PORT': '5432',  # 可以使用默认端口号
-    # },
     'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'test_django',  # 数据库名字
+        'USER': 'postgres',  # 用户名，数据库的拥有者
+        'PASSWORD': 'postgres',  # 登录密码
+        'HOST': 'localhost',  # 主机地址本地可配置localhost或127.0.0.1。前提是安装postgresql的时候配置pg_hba.conf要配置好。
+        'PORT': '5432',  # 可以使用默认端口号
+    },
+    'dev': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
